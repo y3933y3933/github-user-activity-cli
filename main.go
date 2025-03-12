@@ -56,13 +56,14 @@ func main() {
 		log.Fatalf("decode json fail: %v", err)
 	}
 
+	fmt.Println("Output: ")
 	for _, e := range events {
 		event, exist := GetEvents()[e.Type]
 		if !exist {
 			continue
 		}
 
-		fmt.Println(event.Handler(e))
+		event.ShowMsg(e)
 
 	}
 }

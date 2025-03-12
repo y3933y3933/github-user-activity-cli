@@ -45,17 +45,26 @@ type EventResponse struct {
 }
 
 type Event struct {
-	Handler func(e EventResponse) string
+	ShowMsg func(e EventResponse)
 }
 
 func GetEvents() map[string]Event {
 	return map[string]Event{
 		"PushEvent": {
-			Handler: HandlerPush,
+			ShowMsg: HandlerPush,
+		},
+		"WatchEvent": {
+			ShowMsg: HandlerWatch,
 		},
 	}
 }
 
-func HandlerPush(e EventResponse) string {
-	return fmt.Sprintf("Pushed %d commits to %s", len(e.Payload.Commits), e.Repo.Name)
+func HandlerPush(e EventResponse) {
+	msg := fmt.Sprintf("Pushed %d commits to %s", len(e.Payload.Commits), e.Repo.Name)
+	fmt.Println(msg)
+}
+
+func HandlerWatch(e EventResponse) {
+	msg := fmt.Sprintf("Starred %s", e.Repo.Name)
+	fmt.Println(msg)
 }
